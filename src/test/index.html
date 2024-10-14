@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="./js/test.js"></script>
+</head>
+
+<body>
+    <div id="app">
+        <header class="one"></header>
+        <div class="two">
+            <aside class="three"></aside>
+        </div>
+    </div>
+    <script>
+        const InsertStyle = $styleSheet.InsertStyle;
+        console.log(InsertStyle);
+        const sheet = new InsertStyle();
+        const css = fetch('./css/style.css', { method: 'GET' }).then(res => res.text());
+        css.then(res => {
+            console.log(res);
+            sheet.html(res);
+        });
+        // sheet.insert({
+        //     '#app': {
+        //         backgroundColor: 'red',
+        //         width: '100px',
+        //         height: '100px',
+        //     }
+        // });
+    </script>
+</body>
+
+</html>
