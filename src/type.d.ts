@@ -21,11 +21,6 @@ export interface InsertStyle {
 	 * Delete a style from the style sheet.
 	 */
 	delete: Fn<[...selector: string[]]>;
-	/**
-	 * Use `innerHTML` to set a style text to the style element.
-	 * @param {boolean} append Whether add the style text after the existing style text.
-	 */
-	html: Fn<[style: string, append?: boolean]>;
 	readonly styleElement: HTMLStyleElement;
 	readonly styleSheet: CSSStyleSheet;
 	readonly name: string;

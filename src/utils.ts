@@ -18,13 +18,17 @@ const _i = (length: number) => {
 	return (Math.random() * length) | 0;
 };
 
-const createName = (len: number): string => {
+export const randomString = (len: number, prefix: string = '') => {
 	let str = '';
 	while (len-- > 0) {
 		const _v = range[_i(range.length)];
 		str += String.fromCharCode(_v.start + _i(_v.len));
 	}
-	const value = `${ID}_${str}`;
+	return `${prefix}${str}`;
+};
+
+const createName = (len: number): string => {
+	const value = randomString(len, `${ID}-`);
 	if (cache.has(value)) {
 		return createName(len);
 	}
@@ -162,13 +166,6 @@ export function create() {
 			},
 			delete: (...selector: string[]) => {
 				return _delete(name, selectors, ...selector);
-			},
-			html: (style: string, append: boolean = true) => {
-				if (append) {
-					styleElement.innerHTML += style;
-				} else {
-					styleElement.innerHTML = style;
-				}
 			},
 			get styleElement() {
 				return styleElement;

@@ -1,5 +1,5 @@
 import type { InsertStyle as InsertStyleType, StyleText } from './type';
-import { create, removeStyleSheet } from './utils';
+import { create, randomString, removeStyleSheet } from './utils';
 
 export class InsertStyle implements InsertStyleType {
 	#usage: InsertStyleType;
@@ -19,9 +19,6 @@ export class InsertStyle implements InsertStyleType {
 	delete(...selector: string[]) {
 		return this.#usage.delete(...selector);
 	}
-	html(style: string, append?: boolean) {
-		return this.#usage.html(style, append);
-	}
 
 	/**
 	 * Create a style sheet operate instance.
@@ -37,5 +34,28 @@ export class InsertStyle implements InsertStyleType {
 		for (const n of name) {
 			removeStyleSheet(n);
 		}
+	}
+
+	static #cache = [] as string[];
+
+	static css(style: string, el?: HTMLStyleElement) {
+		if (el) {
+			el.textContent += style;
+			return el;
+		}
+		const name = () => {
+			const str = randomString(8, 'W-YG-');
+			if (this.#cache.includes(str)) {
+				return name();
+			}
+			this.#cache.push(str);
+			return str;
+		};
+		const styleElement = document.createElement('style');
+		styleElement.setAttribute('type', 'text/css');
+		styleElement.setAttribute('name', name());
+		styleElement.textContent = style;
+		document.head.appendChild(styleElement);
+		return styleElement;
 	}
 }
